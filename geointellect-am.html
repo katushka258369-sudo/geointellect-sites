@@ -32,7 +32,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-se
 #hero-canvas { position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0; }
 
 /* ── NAV ── */
-nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s; }
+nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s;background:rgba(8,6,18,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border); }
 nav.scrolled { background:rgba(8,6,18,0.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:13px 60px; }
 .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
 .nav-logo-icon { width:32px;height:32px;background:linear-gradient(135deg,var(--red),#FF6B35);border-radius:10px;display:flex;align-items:center;justify-content:center; }
@@ -883,13 +883,13 @@ const nav = document.getElementById('navbar');
 window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', scrollY > 40));
 
 // Mobile menu
-function toggleMobile(){{ document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('burger').classList.toggle('open'); }}
-function closeMobile(){{ document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('burger').classList.remove('open'); }}
+function toggleMobile(){ document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('burger').classList.toggle('open'); }
+function closeMobile(){ document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('burger').classList.remove('open'); }
 
 // Armenian language
-function setLangAM(l){{
-  var T = {{
-    hy: {{
+function setLangAM(l){
+  var T = {
+    hy: {
       'Возможности':'Հնարավորություններ','Клиенты':'Հաճախորդներ','Тарифы':'Սակագներ',
       'Контакты':'Կոնտակտ','Блог':'Բլոգ','Попробовать бесплатно':'Փորձեք անվճար',
       'Попробовать демо':'Փորձեք դեմոն','Узнать больше':'Իմանալ ավելին',
@@ -908,40 +908,40 @@ function setLangAM(l){{
       'объектов с населением до дома':'օբյեկտ՝ տնային բնակչությամբ',
       'инструментов в платформе':'գործիք հարթակում',
       'среднее время получения отчёта':'հաշվետվության ստացման միջին ժամանակ',
-    }}
-  }};
+    }
+  };
   var dict = l==='hy' ? T.hy : null;
-  document.querySelectorAll('[data-ru],[data-hy]').forEach(function(el){{
+  document.querySelectorAll('[data-ru],[data-hy]').forEach(function(el){
     var ru=el.getAttribute('data-ru'), hy=el.getAttribute('data-hy');
-    if(l==='hy'&&hy){{ el.textContent=hy; return; }}
-    if(l==='ru'&&ru){{ el.textContent=ru; return; }}
-  }});
-  if(dict){{
-    document.querySelectorAll('h2,h3,p,.stat-label,.video-title,.article-title,.section-label,button.submit-btn').forEach(function(el){{
+    if(l==='hy'&&hy){ el.textContent=hy; return; }
+    if(l==='ru'&&ru){ el.textContent=ru; return; }
+  });
+  if(dict){
+    document.querySelectorAll('h2,h3,p,.stat-label,.video-title,.article-title,.section-label,button.submit-btn').forEach(function(el){
       var t=el.textContent.trim();
       if(dict[t]) el.textContent=dict[t];
-    }});
-    if(l==='hy'){{
-      document.querySelectorAll('input,textarea').forEach(function(el){{
-        var pm={{'Ваше имя':'Ձեր անունը','Номер телефона':'Հեռախոսի համարը','Вид деятельности':'Գործունեության տեսակ','Сообщение (необязательно)':'Հաղորդագրություն (ըստ ցանկության)'}};
+    });
+    if(l==='hy'){
+      document.querySelectorAll('input,textarea').forEach(function(el){
+        var pm={'Ваше имя':'Ձեր անունը','Номер телефона':'Հեռախոսի համարը','Вид деятельности':'Գործունեության տեսակ','Сообщение (необязательно)':'Հաղորդագրություն (ըստ ցանկության)'};
         if(pm[el.placeholder]) el.placeholder=pm[el.placeholder];
-      }});
+      });
       document.title='Geointellect — Геоаналитика Հայաստանում';
-    }}
-  }} else {{
-    document.querySelectorAll('input,textarea').forEach(function(el){{
-      var pm={{'Ձեր անունը':'Ваше имя','Հեռախոսի համարը':'Номер телефона','Գործունեության տեսակ':'Вид деятельности','Հաղորդագրություն (ըստ ցանկության)':'Сообщение (необязательно)'}};
+    }
+  } else {
+    document.querySelectorAll('input,textarea').forEach(function(el){
+      var pm={'Ձեր անունը':'Ваше имя','Հեռախոսի համարը':'Номер телефона','Գործունեության տեսակ':'Вид деятельности','Հաղորդագրություն (ըստ ցանկության)':'Сообщение (необязательно)'};
       if(pm[el.placeholder]) el.placeholder=pm[el.placeholder];
-    }});
+    });
     document.title='Geointellect — Геоаналитика в Армении';
-  }}
-  document.querySelectorAll('.lang-btn').forEach(function(b){{
+  }
+  document.querySelectorAll('.lang-btn').forEach(function(b){
     b.classList.toggle('active', b.id&&b.id.endsWith('-'+l));
-  }});
-}}
+  });
+}
 
 // Demo switcher
-function switchDemoAM(btn,url){{
+function switchDemoAM(btn,url){
   var prev=document.getElementById('demo-btn-active-am');
   if(prev) prev.removeAttribute('id');
   btn.id='demo-btn-active-am';
@@ -949,52 +949,52 @@ function switchDemoAM(btn,url){{
   document.getElementById('demo-url-bar-am').textContent=url.replace('https://','').slice(0,40)+'...';
   document.getElementById('demo-open-am').href=url;
   document.getElementById('demo-fallback-am').href=url;
-}}
+}
 
 // Video play
-function playVideoAM(card,id){{
+function playVideoAM(card,id){
   var thumb=card.querySelector('.video-thumb');
-  thumb.innerHTML=`<iframe src="https://www.youtube.com/embed/${{id}}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media;fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none"></iframe>`;
+  thumb.innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media;fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none"></iframe>`;
   thumb.style.background='#000'; card.style.cursor='default'; card.onclick=null;
-}}
+}
 
 // Counters
-const cobs=new IntersectionObserver(es=>{{es.forEach(e=>{{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.target,s=el.dataset.suffix||'',d=1200,st=performance.now(),fr=Math.floor(t*.85);const go=n=>{{const p=Math.min((n-st)/d,1),ease=1-Math.pow(1-p,4);el.textContent=Math.floor(fr+ease*(t-fr))+s;if(p<1)requestAnimationFrame(go);}};requestAnimationFrame(go);cobs.unobserve(el);}});}},{{threshold:.5}});
+const cobs=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.target,s=el.dataset.suffix||'',d=1200,st=performance.now(),fr=Math.floor(t*.85);const go=n=>{const p=Math.min((n-st)/d,1),ease=1-Math.pow(1-p,4);el.textContent=Math.floor(fr+ease*(t-fr))+s;if(p<1)requestAnimationFrame(go);};requestAnimationFrame(go);cobs.unobserve(el);});},{threshold:.5});
 document.querySelectorAll('[data-target]').forEach(el=>cobs.observe(el));
 
 // Reveal
-const robs=new IntersectionObserver(es=>es.forEach(e=>{{if(e.isIntersecting)e.target.classList.add('visible');}}),{{threshold:.08}});
+const robs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>robs.observe(el));
 
 // Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>{{a.addEventListener('click',e=>{{const t=document.querySelector(a.getAttribute('href'));if(t){{e.preventDefault();t.scrollIntoView({{behavior:'smooth',block:'start'}});}}}});}});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
 
 // Hero canvas particles
-(function(){{
+(function(){
   const canvas=document.getElementById('hero-canvas');
   if(!canvas)return;
   const ctx=canvas.getContext('2d');
   let W,H,particles=[];
-  function resize(){{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}}
-  function makeParticle(){{return{{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,a:Math.random()*.5+.1,c:Math.random()>.5?'232,25,44':'244,168,39'}};}}
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function makeParticle(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,a:Math.random()*.5+.1,c:Math.random()>.5?'232,25,44':'244,168,39'};}
   resize();window.addEventListener('resize',resize);
   for(let i=0;i<80;i++)particles.push(makeParticle());
-  function draw(){{
+  function draw(){
     ctx.clearRect(0,0,W,H);
-    particles.forEach(p=>{{
+    particles.forEach(p=>{
       p.x+=p.vx;p.y+=p.vy;
       if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(${{p.c}},${{p.a}})`;ctx.fill();
-    }});
-    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){{
+      ctx.fillStyle=`rgba(${p.c},${p.a})`;ctx.fill();
+    });
+    for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){
       const p=particles[i],q=particles[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<120){{ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(${{p.c}},${{(.06*(1-d/120))}})`; ctx.lineWidth=.5;ctx.stroke();}}
-    }}
+      if(d<120){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(${p.c},${(.06*(1-d/120))})`; ctx.lineWidth=.5;ctx.stroke();}
+    }
     requestAnimationFrame(draw);
-  }}
+  }
   draw();
-}})();
+})();
 
 {mockup_js}
 </script>
