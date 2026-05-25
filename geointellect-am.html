@@ -366,6 +366,25 @@ footer { background:var(--bg2);border-top:1px solid var(--border);padding:56px 6
 .mock-mapwrap { flex: 1; background: #0A0818; position: relative; overflow: hidden; cursor: grab; user-select: none; }
 .mock-mapwrap:active { cursor: grabbing; }
 #mock-map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* ── MOCKUP MAP CRITICAL FIXES ── */
+.mock-mapwrap { flex: 1 !important; position: relative !important; overflow: hidden !important; min-height: 400px; background: #0A0818; cursor: grab; user-select: none; }
+.mock-mapwrap:active { cursor: grabbing; }
+.mock-map-content { position: absolute !important; inset: -60px; transition: transform 0.1s; }
+#mock-map-canvas { position: absolute !important; inset: 0; width: 100%; height: 100%; }
+.data-layer { position: absolute !important; inset: 0; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+.data-layer.active { opacity: 1; }
+.hm-circle { position: absolute; border-radius: 50%; filter: blur(28px) !important; transform: translate(-50%,-50%); }
+.comp-pin { position: absolute; border-radius: 50%; transform: translate(-50%,-50%); }
+.infra-pin { position: absolute; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%,-50%); }
+.zone-ring { position: absolute; border-radius: 50%; border: 1.5px dashed rgba(232,25,44,0.7); transform: translate(-50%,-50%); background: rgba(232,25,44,0.04); pointer-events: none; transition: width .4s, height .4s; }
+.zone-ring-inner { position: absolute; border-radius: 50%; border: 1px solid rgba(232,25,44,0.3); background: rgba(232,25,44,0.06); transform: translate(-50%,-50%); pointer-events: none; }
+.pin-dot { width: 14px; height: 14px; border-radius: 50%; background: #E8192C; box-shadow: 0 0 20px rgba(232,25,44,0.9); position: relative; }
+.pin-pulse { position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(232,25,44,0.5); animation: pinPulse 2s ease-out infinite; }
+.pin-pulse.p2 { animation-delay: 0.7s; }
+@keyframes pinPulse { 0%{transform:scale(.5);opacity:.8} 100%{transform:scale(2.4);opacity:0} }
+.pin-label { background: #E8192C; color:#fff; font-size:8px; font-weight:700; padding:3px 8px; border-radius:100px; margin-bottom:5px; font-family:sans-serif; -webkit-text-fill-color:#fff; }
+.selected-pin { position: absolute; transform: translate(-50%,-50%); pointer-events: none; display: flex; flex-direction: column; align-items: center; }
 </style>
 </head>
 <body>
