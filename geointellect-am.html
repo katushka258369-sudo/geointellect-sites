@@ -550,7 +550,15 @@ footer { background:var(--bg2);border-top:1px solid var(--border);padding:56px 6
           <div class="msc v" id="stat2"><div class="msc-l" id="stat2-l">Пешеходный трафик</div><div class="msc-v" id="stat2-v">8 340</div></div>
           <div class="msc r" id="stat3"><div class="msc-l" id="stat3-l">Конкурентов</div><div class="msc-v" id="stat3-v">8</div></div>
           <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;">
-            <div class="msc-l" id="chart-title">ТРАФИК ПО ЧАСАМ</div>
+            <div class="msc-l" id="chart-title">ТРАФИК ПО ЧАСАМ</div><div style="background:#1a1228;border-radius:8px;padding:10px 8px">
+              <div style="font-size:9px;font-weight:700;letter-spacing:.08em;color:rgba(240,237,255,0.4);margin-bottom:8px">ТРАФИК ПО ЧАСАМ</div>
+              <svg width="100%" height="52" viewBox="0 0 120 52" preserveAspectRatio="none">
+                <defs><linearGradient id="barG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8192C"/><stop offset="100%" stop-color="rgba(232,25,44,0.3)"/></linearGradient></defs>
+                <rect x="1" y="40" width="8" height="12" fill="url(#barG)" rx="2"/><rect x="11" y="34" width="8" height="18" fill="url(#barG)" rx="2"/><rect x="21" y="44" width="8" height="8" fill="url(#barG)" rx="2"/><rect x="31" y="30" width="8" height="22" fill="url(#barG)" rx="2"/><rect x="41" y="17" width="8" height="35" fill="url(#barG)" rx="2"/><rect x="51" y="4" width="8" height="48" fill="url(#barG)" rx="2"/><rect x="61" y="10" width="8" height="42" fill="url(#barG)" rx="2"/><rect x="71" y="14" width="8" height="38" fill="url(#barG)" rx="2"/><rect x="81" y="22" width="8" height="30" fill="url(#barG)" rx="2"/><rect x="91" y="27" width="8" height="25" fill="url(#barG)" rx="2"/><rect x="101" y="32" width="8" height="20" fill="url(#barG)" rx="2"/><rect x="111" y="37" width="8" height="15" fill="url(#barG)" rx="2"/>
+                <rect x="51" y="4" width="8" height="48" fill="#E8192C" rx="2"/>
+              </svg>
+              <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(240,237,255,0.25);margin-top:3px"><span>9</span><span>12</span><span>15</span><span>18</span><span>21</span></div>
+            </div>
             <div class="mock-bars" id="mockBars">
               <span style="height:60%;background:rgba(0,212,255,0.35)"></span>
               <span style="height:75%;background:rgba(0,212,255,0.45)"></span>
@@ -1076,21 +1084,29 @@ function updateRadius(val) {
 }
 
 (function initMockCanvas(){
-  var canvas = document.getElementById('mock-map-canvas');
-  if(!canvas) return;
-  function draw(){
-    canvas.width = canvas.offsetWidth || 800;
-    canvas.height = canvas.offsetHeight || 500;
+  function drawCanvas(){
+    var canvas = document.getElementById('mock-map-canvas');
+    if(!canvas || !canvas.offsetWidth) { setTimeout(drawCanvas, 200); return; }
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
     var ctx = canvas.getContext('2d');
     var W = canvas.width, H = canvas.height;
+    // Base fill
     ctx.fillStyle='#0A0818'; ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='rgba(255,255,255,0.03)'; ctx.lineWidth=1;
-    for(var x=0;x<W;x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for(var y=0;y<H;y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    // Grid
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(var x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    // Roads - horizontal
+    ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=2;
+    [H*0.3, H*0.55, H*0.75].forEach(function(y){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();});
+    // Roads - vertical
+    [W*0.3, W*0.55, W*0.72].forEach(function(x){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();});
   }
-  draw();
-  window.addEventListener('resize', draw);
-  setTimeout(draw, 400);
+  drawCanvas();
+  window.addEventListener('resize', drawCanvas);
+  setTimeout(drawCanvas, 100);
+  setTimeout(drawCanvas, 600);
 })();
 
 (function initMockDrag(){
